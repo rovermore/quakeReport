@@ -46,19 +46,14 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
     private ProgressBar progressBar;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.earthquake_activity);
 
 
-
-
         Log.v("initloader", "The oncreate has runned and loader has started");
-        getLoaderManager().initLoader(0,null,this).forceLoad();
-
-
+        getLoaderManager().initLoader(0, null, this).forceLoad();
 
 
     }
@@ -82,67 +77,60 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
         return super.onOptionsItemSelected(item);
     }
 
-    private void updateUI(final ArrayList<Quake> quakeArrayList){
+    private void updateUI(final ArrayList<Quake> quakeArrayList) {
 
 
-    EarthquakeAdapter adapter = null;
+        EarthquakeAdapter adapter = null;
         adapter = new EarthquakeAdapter(
                 this, quakeArrayList);
 
 
-    // Find a reference to the {@link ListView} in the layout
-    ListView earthquakeListView = (ListView) findViewById(R.id.list);
+        // Find a reference to the {@link ListView} in the layout
+        ListView earthquakeListView = (ListView) findViewById(R.id.list);
 
 
         //Throws error screen in case adapter is empty
         earthquakeListView.setEmptyView(emptyStateView);
 
 
-    // Set the adapter on the {@link ListView}
-    // so the list can be populated in the user interface
+        // Set the adapter on the {@link ListView}
+        // so the list can be populated in the user interface
         earthquakeListView.setAdapter(adapter);
-
 
 
         earthquakeListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
 
-    {
-        @Override
-        public void onItemClick (AdapterView < ? > adapterView, View view,int i, long l){
+        {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
 
-            ArrayList<Quake> newQuakeArrayList = new ArrayList<Quake>(quakeArrayList);
+                ArrayList<Quake> newQuakeArrayList = new ArrayList<Quake>(quakeArrayList);
 
-            Quake currentQuakeToIntent = newQuakeArrayList.get(i);
+                Quake currentQuakeToIntent = newQuakeArrayList.get(i);
 
-            String url = currentQuakeToIntent.getUrl();
+                String url = currentQuakeToIntent.getUrl();
 
-            Intent goLink = new Intent();
+                Intent goLink = new Intent();
 
-            goLink.setData(Uri.parse(url));
+                goLink.setData(Uri.parse(url));
 
-            goLink.setAction(Intent.ACTION_WEB_SEARCH);
+                goLink.setAction(Intent.ACTION_WEB_SEARCH);
 
-            startActivity(goLink);
+                startActivity(goLink);
 
 
-
+            }
+        });
 
 
     }
-    });
-
-
-
-
-
-}
 
     @Override
     public Loader<ArrayList<Quake>> onCreateLoader(int i, Bundle bundle) {
 
 
-        Log.v("onCreateLoader","onCreate loader running loader should be created");
+        Log.v("onCreateLoader", "onCreate loader running loader should be created");
 
         EarthquakeLoader loader = new EarthquakeLoader(this);
 
@@ -153,13 +141,13 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
     @Override
     public void onLoadFinished(Loader<ArrayList<Quake>> loader, ArrayList<Quake> earthquakes) {
 
-        Log.v("onLoadFinished","update of the UUI should start and create de interface");
+        Log.v("onLoadFinished", "update of the UUI should start and create de interface");
 
         //Inflates emptyStateView in order to not apperar in screen until loading has finished
         emptyStateView = (TextView) findViewById(R.id.empty_state);
 
         //Saves ProgresBar view into an object in order to treat it from java
-        progressBar= (ProgressBar) findViewById(R.id.loading_spinner);
+        progressBar = (ProgressBar) findViewById(R.id.loading_spinner);
 
         //Makes progerss bar disappear when the loader is loaded
         progressBar.setVisibility(View.GONE);
@@ -172,12 +160,12 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
     @Override
     public void onLoaderReset(Loader<ArrayList<Quake>> loader) {
 
-        Log.v("onLoaderReset","Create a new arraylist");
+        Log.v("onLoaderReset", "Create a new arraylist");
         updateUI(new ArrayList<Quake>());
 
 
-
-    }}
+    }
+}
 
 
 
